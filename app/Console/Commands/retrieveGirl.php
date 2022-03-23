@@ -44,6 +44,8 @@ class retrieveGirl extends Command
             $page->navigate('https://www.seoghoer.dk' . $elem)->waitForNavigation(Page::DOM_CONTENT_LOADED, 40000);
             $link = 'https://www.seoghoer.dk' . $elem;
             $img = $page->dom()->querySelector('.img__thumbnail')->getAttribute('src');
+            $array = explode('?', $img);
+            $img = $array[0];
             $title = $page->dom()->querySelector('.article-title')->getText();
             $teaser = $page->dom()->querySelector('.article-teaser')->getText();
             $text = $page->evaluate('let f = function() {
