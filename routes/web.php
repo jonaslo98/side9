@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,13 +11,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
+Route::get('hey', function () {
+    return "hey";
 });
 
 Route::get('/side9', 'Side9Controller@get');
 
-Route::get('/hey', function () {
-    return "hey";
-});
