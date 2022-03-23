@@ -35,7 +35,7 @@ class retrieveGirl extends Command
         $browser = $browserFactory->createBrowser();
         try {
             $page = $browser->createPage();
-            $page->navigate('http://www.seoghoer.dk/tags/se-og-hoer-pigen')->waitForNavigation(Page::DOM_CONTENT_LOADED, 60000);
+            $page->navigate('http://www.seoghoer.dk/tags/se-og-hoer-pigen')->waitForNavigation(Page::DOM_CONTENT_LOADED, 120000);
             $this->line('Connected');
             $elem = $page->dom()->querySelector('.sh-teaser__blocklink')->getAttribute('href');
             $page->navigate('https://www.seoghoer.dk' . $elem)->waitForNavigation(Page::DOM_CONTENT_LOADED, 40000);
