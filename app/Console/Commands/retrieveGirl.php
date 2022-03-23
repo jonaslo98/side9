@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Girl;
 use HeadlessChromium\Page;
 use Illuminate\Console\Command;
 use HeadlessChromium\BrowserFactory;
@@ -33,6 +34,7 @@ class retrieveGirl extends Command
     public function handle()
     {
         $browserFactory = new BrowserFactory();
+        $browserFactory->addOptions(['noSandbox' => true]);
         $browser = $browserFactory->createBrowser();
         try {
             $page = $browser->createPage();
@@ -44,29 +46,29 @@ class retrieveGirl extends Command
             $img = $page->dom()->querySelector('.img__thumbnail')->getAttribute('src');
             $title = $page->dom()->querySelector('.article-title')->getText();
             $teaser = $page->dom()->querySelector('.article-teaser')->getText();
-            $text = $page->dom()->querySelector('.content-body')->querySelector('p')->getHTML();
+            $text = $page->evaluate('let f = function() {
+  let text = ""
+  let node = document.querySelectorAll("div.content-body > p")
+  node.forEach(v => {
+    text = text + " " + v.innerText
+  })
+  return text
+}; f();')->getReturnValue();
             $this->line("Found text");
-            $page->navigate($img)->waitForNavigation(Page::DOM_CONTENT_LOADED, 40000);
-            sleep(2);
-            $this->line("Taking screenshot");
-//            $screenshot = $page->screenshot([
-//                'format'  => 'jpeg',  // default to 'png' - possible values: 'png', 'jpeg',
-//                'quality' => 80,      // only if format is 'jpeg' - default 100
-//            ]);
-//            $fileName = Str::uuid();
-//            $screenshot->saveToFile(path . $fileName . ".jpg");
 
         } finally {
             // bye
             $browser->close();
         }
 
-        $this->line(trim($link));
-        $this->line(trim($img));
-        $this->line(trim($title));
-        $this->line(trim($teaser));
-        $this->line(trim($text));
-        $this->info('The command was successful!');
+        $girl = new Girl();
+        $girl->text = trim($text);
+        $girl->link = trim($link);
+        $girl->file_path = $img;
+        $girl->title = trim($title);
+        $girl->teaser = trim($teaser);
+        $girl->save();
+        $this->line(($girl->wasRecentlyCreated) ? "Girl added" : "Fail");
         return 0;
     }
 }
