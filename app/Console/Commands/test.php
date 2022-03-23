@@ -30,7 +30,7 @@ class test extends Command
     public function handle()
     {
         $browserFactory = new BrowserFactory();
-        $browserFactory->addOptions(['noSandbox' => true, 'headless' => false]);
+        $browserFactory->addOptions(['noSandbox' => true]);
         $browser = $browserFactory->createBrowser();
         try {
                 $page = $browser->createPage();
