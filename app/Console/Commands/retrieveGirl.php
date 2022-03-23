@@ -6,10 +6,7 @@ use App\Models\Girl;
 use HeadlessChromium\Page;
 use Illuminate\Console\Command;
 use HeadlessChromium\BrowserFactory;
-use http\Env;
-use Illuminate\Support\Str;
 
-define('path', env('SAVE_TO_FILE_PATH'));
 class retrieveGirl extends Command
 {
     /**
@@ -38,11 +35,11 @@ class retrieveGirl extends Command
         $browser = $browserFactory->createBrowser();
         try {
             $page = $browser->createPage();
-            $page->navigate('https://www.seoghoer.dk/tags/se-og-hoer-pigen')->waitForNavigation(Page::DOM_CONTENT_LOADED, 60000);
+            $page->navigate('http://www.seoghoer.dk/tags/se-og-hoer-pigen')->waitForNavigation(Page::DOM_CONTENT_LOADED, 60000);
             $this->line('Connected');
             $elem = $page->dom()->querySelector('.sh-teaser__blocklink')->getAttribute('href');
             $page->navigate('https://www.seoghoer.dk' . $elem)->waitForNavigation(Page::DOM_CONTENT_LOADED, 40000);
-            $link = 'https://www.seoghoer.dk' . $elem;
+            $link = 'http://www.seoghoer.dk' . $elem;
             $img = $page->dom()->querySelector('.img__thumbnail')->getAttribute('src');
             $array = explode('?', $img);
             $img = $array[0];
