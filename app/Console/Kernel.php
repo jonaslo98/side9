@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected $commands = [
-        Commands\retrieveGirl::class
+        Commands\retrieveGirl::class,
+        Commands\test::class
     ];
     protected function schedule(Schedule $schedule)
     {

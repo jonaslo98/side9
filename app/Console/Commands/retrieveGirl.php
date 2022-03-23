@@ -31,7 +31,7 @@ class retrieveGirl extends Command
     public function handle()
     {
         $browserFactory = new BrowserFactory();
-        $browserFactory->addOptions(['noSandbox' => true]);
+        $browserFactory->addOptions(['noSandbox' => true, 'headless' => false]);
         $browser = $browserFactory->createBrowser();
         try {
             $page = $browser->createPage();
